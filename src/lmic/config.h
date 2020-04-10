@@ -128,6 +128,9 @@
 // DEPRECATED(tmm@mcci.com); replaced by LMIC.noRXIQinversion (dynamic). Don't define this.
 //#define DISABLE_INVERT_IQ_ON_RX
 
+// Define this in lmic_project_config.h for devices with external power.
+//#define LMIC_MCMD_DEVS_BATT_DEFAULT MCMD_DEVS_EXT_POWER
+
 // This allows choosing between multiple included AES implementations.
 // Make sure exactly one of these is uncommented.
 //
