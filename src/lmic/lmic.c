@@ -2926,6 +2926,7 @@ lmic_tx_error_t LMIC_setTxData2_strict (u1_t port, xref2u1_t data, u1_t dlen, u1
     return 0;
 }
 
+#if LMIC_ENABLE_user_events
 // send a message with callback; try to adjust data rate
 lmic_tx_error_t LMIC_sendWithCallback (
     u1_t port, xref2u1_t data, u1_t dlen, u1_t confirmed,
@@ -2947,6 +2948,7 @@ lmic_tx_error_t LMIC_sendWithCallback_strict (
     }
     return result;
 }
+#endif // #if LMIC_ENABLE_user_events
 
 
 // Send a payload-less message to signal device is alive
