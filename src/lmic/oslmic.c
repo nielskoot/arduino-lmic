@@ -165,3 +165,13 @@ bit_t os_queryTimeCriticalJobs(ostime_t time) {
     else
         return 0;
 }
+
+// Return the time until the next job, returns -1 if there are no jobs scheduled
+ostime_t os_nextJob() {
+    if (OS.scheduledjobs) {
+        ostime_t next = OS.scheduledjobs->deadline - os_getTime();
+        if (next > 0) return next;
+        else return 0;
+    }
+    else return -1;
+}
