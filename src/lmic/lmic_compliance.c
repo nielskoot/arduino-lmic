@@ -210,8 +210,10 @@ static void evActivate(void) {
         LMIC_Compliance.eventflags |= LMIC_COMPLIANCE_EVENT_ACTIVATE;
         LMIC_Compliance.state = LMIC_COMPLIANCE_STATE_ACTIVATING;
 
+#if LMIC_ENABLE_user_events
         LMIC_Compliance.saveEvent.pEventCb = LMIC.client.eventCb;
         LMIC_Compliance.saveEvent.pUserData = LMIC.client.eventUserData;
+#endif // #if LMIC_ENABLE_user_events
 
 #if CFG_LMIC_EU_like
         band_t *b = LMIC.bands;
