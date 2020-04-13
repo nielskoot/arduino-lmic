@@ -117,12 +117,6 @@ void os_wmsbf4 (xref2u1_t buf, u4_t v) {
 }
 #endif
 
-#if !defined(os_getBattLevel)
-u1_t os_getBattLevel (void) {
-    return MCMD_DEVS_BATT_NOINFO;
-}
-#endif
-
 #if !defined(os_crc16)
 // New CRC-16 CCITT(XMODEM) checksum for beacons:
 u2_t os_crc16 (xref2cu1_t data, uint len) {
@@ -931,7 +925,7 @@ scan_mac_cmds(
             // per [1.02] 5.5. the margin is the SNR.
             LMIC.devAnsMargin = (u1_t)(0b00111111 & (snr <= -32 ? -32 : snr >= 31 ? 31 : snr));
 
-            response_fit = put_mac_uplink_byte3(MCMD_DevStatusAns, os_getBattLevel(), LMIC.devAnsMargin);
+            response_fit = put_mac_uplink_byte3(MCMD_DevStatusAns, LMIC.batteryLevel, LMIC.devAnsMargin);
             break;
         }
 
@@ -2780,6 +2774,11 @@ void LMIC_reset (void) {
     LMIC.adrEnabled   =  FCT_ADREN;
     resetJoinParams();
     LMIC.rxDelay      =  DELAY_DNW1;
+#if defined(LMIC_MCMD_DEVS_BATT_DEFAULT)
+    LMIC.batteryLevel =  LMIC_MCMD_DEVS_BATT_DEFAULT;
+#else // #if defined(LMIC_MCMD_DEVS_BATT_DEFAULT)
+    LMIC.batteryLevel =  MCMD_DEVS_BATT_NOINFO;
+#endif // #if defined(LMIC_MCMD_DEVS_BATT_DEFAULT)
 #if !defined(DISABLE_PING)
     LMIC.ping.freq    =  FREQ_PING; // defaults for ping
     LMIC.ping.dr      =  DR_PING;   // ditto
@@ -3022,6 +3021,18 @@ void LMIC_setLinkCheckMode (bit_t enabled) {
 // so e.g. for a +/-1% error you would pass MAX_CLOCK_ERROR * 1 / 100.
 void LMIC_setClockError(u2_t error) {
     LMIC.client.clockError = error;
+}
+
+// Sets the battery level returned in MAC Command DevStatusAns.
+// Available defines in lorabase.h:
+//   MCMD_DEVS_EXT_POWER   = 0x00, // external power supply
+//   MCMD_DEVS_BATT_MIN    = 0x01, // min battery value
+//   MCMD_DEVS_BATT_MAX    = 0xFE, // max battery value
+//   MCMD_DEVS_BATT_NOINFO = 0xFF, // unknown battery level
+// When setting the battery level calculate the applicable
+// value from MCMD_DEVS_BATT_MIN to MCMD_DEVS_BATT_MAX.
+void LMIC_setBattLevel(u1_t battLevel) {
+    LMIC.batteryLevel = battLevel;
 }
 
 // \brief return the uplink sequence number for the next transmission.

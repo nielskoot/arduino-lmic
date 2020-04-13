@@ -636,6 +636,7 @@ struct lmic_t {
     u1_t        dataBeg;    // 0 or start of data (dataBeg-1 is port)
     u1_t        dataLen;    // 0 no data or zero length data, >0 byte count of data
     u1_t        frame[MAX_LEN_FRAME];
+    u1_t        batteryLevel; // Returned in MAC Command DevStatusAns
 
 #if !defined(DISABLE_BEACONS)
     u1_t        bcnChnl;
@@ -694,6 +695,7 @@ void  LMIC_setPingable   (u1_t intvExp);
 void LMIC_setSession (u4_t netid, devaddr_t devaddr, xref2u1_t nwkKey, xref2u1_t artKey);
 void LMIC_setLinkCheckMode (bit_t enabled);
 void LMIC_setClockError(u2_t error);
+void LMIC_setBattLevel(u1_t battLevel);
 
 u4_t LMIC_getSeqnoUp    (void);
 u4_t LMIC_setSeqnoUp    (u4_t);

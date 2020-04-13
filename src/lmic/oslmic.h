@@ -209,9 +209,6 @@ uint os_getTimeSecs (void);
 #ifndef os_radio
 void os_radio (u1_t mode);
 #endif
-#ifndef os_getBattLevel
-u1_t os_getBattLevel (void);
-#endif
 #ifndef os_queryTimeCriticalJobs
 //! Return non-zero if any jobs are scheduled between now and now+time.
 bit_t os_queryTimeCriticalJobs(ostime_t time);

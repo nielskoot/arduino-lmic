@@ -319,6 +319,15 @@ Disable or enable support for device network-time requests (LoRaWAN MAC request 
 
 If disabled, stub routines are provided that will return failure (so you don't need conditional compiles in client code).
 
+### Battery level
+
+To support battery level in MAC DevStatusAns.
+
+For battery powered devices, call `LMIC_setBattLevel()` when the battery level is measured. This ensures the last known battery level is returned in MAC DevStatusAns.
+
+For externally powered devices:
+`#define LMIC_MCMD_DEVS_BATT_DEFAULT MCMD_DEVS_EXT_POWER`
+
 ### Rarely changed variables
 
 The remaining variables are rarely used, but we list them here for completeness.
