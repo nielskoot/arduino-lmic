@@ -35,6 +35,9 @@
 # include "lmic_config_preconditions.h"
 #endif
 
+// include the C++ hal.h
+#include "oslmic_types.h"
+
 /****************************************************************************\
 |
 | Basic definitions for AS923 (always in scope)
@@ -56,12 +59,28 @@ enum _dr_as923_t {
 // Bands:
 //  g1 :   1%  16dBm
 //                 freq                band     datarates
+
+// As specified in: RP002-1.0.2 LoRaWAN® Regional 39 Parameters
+// In order to accommodate country specific sub-bands across 915 - 928 MHz band, a frequency
+// offset parameter AS923_FREQ_OFFSET is defined. AS923_FREQ_OFFSET is a 32-bit
+// signed integer, allowing both positive and negative frequency offsets.
+#if !defined(AS923_FREQ_OFFSET)
+#define AS923_FREQ_OFFSET 0
+#endif // #if !defined(AS923_FREQ_OFFSET)
+
+// The corresponding frequency offset in Hz is:
+// AS923_FREQ_OFFSET_HZ = 100 x AS923_FREQ_OFFSET.
+#if !defined(AS923_FREQ_OFFSET_HZ)
+#define AS923_FREQ_OFFSET_HZ (100 * (s4_t)(AS923_FREQ_OFFSET))
+#endif // #if !defined(AS923_FREQ_OFFSET_HZ)
+
+
 enum {
-        AS923_F1    = 923200000,      // g1   SF7-12
-        AS923_F2    = 923400000,      // g1   SF7-12
-        AS923_FDOWN = 923200000,      //      (RX2 freq, DR2)
-        AS923_FBCN  = 923400000,      //      default BCN, DR3
-        AS923_FPING = 923400000,      //      default ping, DR3
+        AS923_F1    = (923200000 + AS923_FREQ_OFFSET_HZ),      // g1   SF7-12
+        AS923_F2    = (923400000 + AS923_FREQ_OFFSET_HZ),      // g1   SF7-12
+        AS923_FDOWN = (923200000 + AS923_FREQ_OFFSET_HZ),      //      (RX2 freq, DR2)
+        AS923_FBCN  = (923400000 + AS923_FREQ_OFFSET_HZ),      //      default BCN, DR3
+        AS923_FPING = (923400000 + AS923_FREQ_OFFSET_HZ),      //      default ping, DR3
 };
 enum {
         AS923_FREQ_MIN = 915000000,
