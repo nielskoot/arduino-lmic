@@ -66,6 +66,9 @@ LMICuslike_isValidBeacon1(const uint8_t *d) {
 // no CFList on joins for US-like plans
 #define LMICbandplan_hasJoinCFlist()    (0)
 
+// The CFList in join-accept default first channel, not used for US like but needed to compile
+#define LMICbandplan_getJoinCFlistFirstChannel()    (3)
+
 #define LMICbandplan_advanceBeaconChannel()     \
         do { LMIC.bcnChnl = (LMIC.bcnChnl+1) & 7; } while (0)
 
