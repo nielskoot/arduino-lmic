@@ -1606,7 +1606,7 @@ static bit_t processJoinAccept (void) {
             // https://github.com/mcci-catena/arduino-lmic/issues/19
     } else if ( LMICbandplan_hasJoinCFlist() && dlen > LEN_JA ) {
         dlen = OFF_CFLIST;
-        for( u1_t chidx=3; chidx<8; chidx++, dlen+=3 ) {
+        for( u1_t chidx=LMICbandplan_getJoinCFlistFirstChannel(); chidx<(LMICbandplan_getJoinCFlistFirstChannel() + 5); chidx++, dlen+=3 ) {
             u4_t freq = LMICbandplan_convFreq(&LMIC.frame[dlen]);
             if( freq ) {
                 LMIC_setupChannel(chidx, freq, 0, -1);

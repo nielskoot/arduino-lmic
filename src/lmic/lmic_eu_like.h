@@ -66,6 +66,9 @@ enum { BAND_MILLI = 0, BAND_CENTI = 1, BAND_DECI = 2, BAND_AUX = 3 };
 // there's a CFList on joins for EU-like plans
 #define LMICbandplan_hasJoinCFlist()    (1)
 
+// The CFList in join-accept default first channel
+#define LMICbandplan_getJoinCFlistFirstChannel()    (3)
+
 #define LMICbandplan_advanceBeaconChannel()     \
         do { /* nothing */ } while (0)
 
