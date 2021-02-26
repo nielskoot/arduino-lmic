@@ -109,6 +109,7 @@ ostime_t LMICas923_nextJoinTime(ostime_t now);
 #define LMICbandplan_nextJoinTime(now)     LMICas923_nextJoinTime(now)
 
 // The CFList in join-accept first channel is 2 (unlike most EU like regions where it is 3)
+#undef LMICbandplan_getJoinCFlistFirstChannel
 #define LMICbandplan_getJoinCFlistFirstChannel()    (2)
 
 #endif // _lmic_bandplan_as923_h_
