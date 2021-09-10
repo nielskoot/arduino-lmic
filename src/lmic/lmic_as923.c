@@ -45,8 +45,10 @@ CONST_TABLE(u1_t, _DR2RPS_CRC)[] = {
         (u1_t)MAKERPS(SF9,  BW125, CR_4_5, 0, 0),       // [3]
         (u1_t)MAKERPS(SF8,  BW125, CR_4_5, 0, 0),       // [4]
         (u1_t)MAKERPS(SF7,  BW125, CR_4_5, 0, 0),       // [5]
+#if !defined(DISABLE_FSK) // Also data rate 6 needs to be removed according to the LoRaWAN Regional Parameters
         (u1_t)MAKERPS(SF7,  BW250, CR_4_5, 0, 0),       // [6]
         (u1_t)MAKERPS(FSK,  BW125, CR_4_5, 0, 0),       // [7]
+#endif // #if !defined(DISABLE_FSK)
         ILLEGAL_RPS
 };
 
