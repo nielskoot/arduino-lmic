@@ -55,6 +55,14 @@ CONST_TABLE(u1_t, _DR2RPS_CRC)[] = {
         ILLEGAL_RPS				// [14]
 };
 
+bit_t
+LMICus915_validDR(dr_t dr) {
+        // use subtract here to avoid overflow
+        if (dr >= LENOF_TABLE(_DR2RPS_CRC) - 2)
+                return 0;
+        return TABLE_GET_U1(_DR2RPS_CRC, dr+1)!=ILLEGAL_RPS;
+}
+
 static CONST_TABLE(u1_t, maxFrameLens)[] = {
         19+5, 61+5, 133+5, 250+5, 250+5, 0, 0,0,
         61+5, 133+5, 250+5, 250+5, 250+5, 250+5

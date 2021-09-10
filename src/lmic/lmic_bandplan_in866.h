@@ -81,4 +81,8 @@ void LMICin866_initDefaultChannels(bit_t join);
 void LMICin866_setRx1Params(void);
 #define LMICbandplan_setRx1Params()     LMICin866_setRx1Params()
 
+#undef LMICbandplan_validDR
+bit_t LMICin866_validDR(dr_t dr);
+#define LMICbandplan_validDR(dr)        LMICin866_validDR(dr)
+
 #endif // _lmic_bandplan_in866_h_

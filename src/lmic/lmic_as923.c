@@ -50,6 +50,14 @@ CONST_TABLE(u1_t, _DR2RPS_CRC)[] = {
         ILLEGAL_RPS
 };
 
+bit_t
+LMICas923_validDR(dr_t dr) {
+        // use subtract here to avoid overflow
+        if (dr >= LENOF_TABLE(_DR2RPS_CRC) - 2)
+                return 0;
+        return TABLE_GET_U1(_DR2RPS_CRC, dr+1)!=ILLEGAL_RPS;
+}
+
 // see table in 2.7.6 -- this assumes UplinkDwellTime = 0.
 static CONST_TABLE(u1_t, maxFrameLens_dwell0)[] = {
 	59+5,   // [0]

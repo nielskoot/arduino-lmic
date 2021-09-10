@@ -112,4 +112,8 @@ ostime_t LMICas923_nextJoinTime(ostime_t now);
 #undef LMICbandplan_getJoinCFlistFirstChannel
 #define LMICbandplan_getJoinCFlistFirstChannel()    (2)
 
+#undef LMICbandplan_validDR
+bit_t LMICas923_validDR(dr_t dr);
+#define LMICbandplan_validDR(dr)        LMICas923_validDR(dr)
+
 #endif // _lmic_bandplan_as923_h_

@@ -66,4 +66,8 @@ void LMICau915_setRx1Params(void);
 void LMICau915_updateTx(ostime_t txbeg);
 #define LMICbandplan_updateTx(txbeg)    LMICau915_updateTx(txbeg)
 
+#undef LMICbandplan_validDR
+bit_t LMICau915_validDR(dr_t dr);
+#define LMICbandplan_validDR(dr)        LMICau915_validDR(dr)
+
 #endif // _lmic_bandplan_au915_h_

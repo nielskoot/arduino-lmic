@@ -88,4 +88,8 @@ ostime_t LMICeu868_nextJoinTime(ostime_t now);
 void LMICeu868_setRx1Params(void);
 #define LMICbandplan_setRx1Params()     LMICeu868_setRx1Params()
 
+#undef LMICbandplan_validDR
+bit_t LMICeu868_validDR(dr_t dr);
+#define LMICbandplan_validDR(dr)        LMICeu868_validDR(dr)
+
 #endif // _lmic_eu868_h_

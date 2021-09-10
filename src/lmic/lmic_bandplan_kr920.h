@@ -88,4 +88,8 @@ void LMICkr920_setRx1Params(void);
 void LMICkr920_updateTx(ostime_t txbeg);
 #define LMICbandplan_updateTx(t)        LMICkr920_updateTx(t)
 
+#undef LMICbandplan_validDR
+bit_t LMICkr920_validDR(dr_t dr);
+#define LMICbandplan_validDR(dr)        LMICkr920_validDR(dr)
+
 #endif // _lmic_kr920_h_
