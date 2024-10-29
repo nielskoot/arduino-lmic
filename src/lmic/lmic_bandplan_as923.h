@@ -74,7 +74,7 @@ void LMICas923_init(void);
 #undef LMICbandplan_isFSK
 #define LMICbandplan_isFSK()    (/* RX datarate */LMIC.dndr == AS923_DR_FSK)
 
-#define LMICbandplan_getInitialDrJoin() (AS923_DR_SF10)
+#define LMICbandplan_getInitialDrJoin() (AS923_DR_SF7)
 
 void LMICas923_setBcnRxParams(void);
 #define LMICbandplan_setBcnRxParams()   LMICas923_setBcnRxParams()

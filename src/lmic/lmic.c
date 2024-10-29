@@ -2779,6 +2779,10 @@ void LMIC_reset (void) {
 #else // #if defined(LMIC_MCMD_DEVS_BATT_DEFAULT)
     LMIC.batteryLevel =  MCMD_DEVS_BATT_NOINFO;
 #endif // #if defined(LMIC_MCMD_DEVS_BATT_DEFAULT)
+#if CFG_LMIC_EU_like
+    LMIC.joinDrMin = LORAWAN_DR0;
+    LMIC.joinDrMax = 0xFF;
+#endif // #if CFG_LMIC_EU_like
 #if !defined(DISABLE_PING)
     LMIC.ping.freq    =  FREQ_PING; // defaults for ping
     LMIC.ping.dr      =  DR_PING;   // ditto
@@ -3036,6 +3040,13 @@ void LMIC_setClockError(u2_t error) {
 void LMIC_setBattLevel(u1_t battLevel) {
     LMIC.batteryLevel = battLevel;
 }
+
+#if CFG_LMIC_EU_like
+void LMIC_setJoinDrRange(dr_t min, dr_t max) {
+    LMIC.joinDrMin = min;
+    LMIC.joinDrMax = max;
+}
+#endif // #if CFG_LMIC_EU_like
 
 // \brief return the uplink sequence number for the next transmission.
 // This simple getter returns the uplink sequence number maintained by the LMIC engine.

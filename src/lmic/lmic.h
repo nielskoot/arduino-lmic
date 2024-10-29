@@ -637,7 +637,10 @@ struct lmic_t {
     u1_t        dataLen;    // 0 no data or zero length data, >0 byte count of data
     u1_t        frame[MAX_LEN_FRAME];
     u1_t        batteryLevel; // Returned in MAC Command DevStatusAns
-
+#if CFG_LMIC_EU_like
+    dr_t        joinDrMin;
+    dr_t        joinDrMax;
+#endif // #if CFG_LMIC_EU_like
 #if !defined(DISABLE_BEACONS)
     u1_t        bcnChnl;
 #endif
@@ -696,6 +699,9 @@ void LMIC_setSession (u4_t netid, devaddr_t devaddr, xref2u1_t nwkKey, xref2u1_t
 void LMIC_setLinkCheckMode (bit_t enabled);
 void LMIC_setClockError(u2_t error);
 void LMIC_setBattLevel(u1_t battLevel);
+#if CFG_LMIC_EU_like
+void LMIC_setJoinDrRange(dr_t min, dr_t max);
+#endif // #if CFG_LMIC_EU_like
 
 u4_t LMIC_getSeqnoUp    (void);
 u4_t LMIC_setSeqnoUp    (u4_t);

@@ -133,7 +133,9 @@ void LMICeulike_initJoinLoop(uint8_t nDefaultChannels, s1_t adrTxPow) {
         LMIC.adrTxPow = adrTxPow;
         // TODO(tmm@mcci.com) don't use EU directly, use a table. That
         // will allow support for EU-style bandplans with similar code.
-        LMICcore_setDrJoin(DRCHG_SET, LMICbandplan_getInitialDrJoin());
+        dr_t dr = LMICbandplan_getInitialDrJoin();
+        if (LMIC.JoinDrMax < dr) dr = LMIC.JoinDrMax;
+        LMICcore_setDrJoin(DRCHG_SET, dr);
         LMICbandplan_initDefaultChannels(/* put into join mode */ 1);
         ASSERT((LMIC.opmode & OP_NEXTCHNL) == 0);
         LMIC.txend = os_getTime() + LMICcore_rndDelay(8);
@@ -181,18 +183,20 @@ ostime_t LMICeulike_nextJoinState(uint8_t nDefaultChannels) {
                 //
 
 // TODO(tmm@mcci.com) - see above; please remove regional dependency from this file.
+                if (LMIC.datarate <= LMIC.joinDrMin
 #if CFG_region == LMIC_REGION_as923
-                // in the join of AS923 v1.1 or older, only DR2 is used.
-                // no need to change the DR.
-                LMIC.datarate = AS923_DR_SF10;
-                failed = 1;
-#else
-                if (LMIC.datarate == LORAWAN_DR0)
+                // The join of AS923 has minimal DR2/SF10. This setting ensures
+                // that end-devices are compatible with the 400ms dwell time
+                // limitation until the actual dwell time limit is notified to
+                // the end-device by the Network Server via the MAC command
+                // TxParamSetupReq.
+                    || LMIC.datarate <= AS923_DR_SF10
+#endif
+                                                     ) {
                         failed = 1; // we have tried all DR - signal EV_JOIN_FAILED
-                else {
+                } else {
                         LMICcore_setDrJoin(DRCHG_NOJACC, decDR((dr_t)LMIC.datarate));
                 }
-#endif
         }
         // Clear NEXTCHNL because join state engine controls channel hopping
         LMIC.opmode &= ~OP_NEXTCHNL;
