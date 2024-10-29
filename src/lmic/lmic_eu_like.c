@@ -134,7 +134,7 @@ void LMICeulike_initJoinLoop(uint8_t nDefaultChannels, s1_t adrTxPow) {
         // TODO(tmm@mcci.com) don't use EU directly, use a table. That
         // will allow support for EU-style bandplans with similar code.
         dr_t dr = LMICbandplan_getInitialDrJoin();
-        if (LMIC.JoinDrMax < dr) dr = LMIC.JoinDrMax;
+        if (LMIC.joinDrMax < dr) dr = LMIC.joinDrMax;
         LMICcore_setDrJoin(DRCHG_SET, dr);
         LMICbandplan_initDefaultChannels(/* put into join mode */ 1);
         ASSERT((LMIC.opmode & OP_NEXTCHNL) == 0);
