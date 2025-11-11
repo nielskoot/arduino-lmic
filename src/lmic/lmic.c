@@ -2379,10 +2379,11 @@ static bit_t processDnData_txcomplete(void) {
                             e_.eui    = MAIN::CDEV->getEui(),
                             e_.info   = LMIC.adrAckReq));
         dr_t newDr = decDR((dr_t)LMIC.datarate);
+        // newDr must not be lower than minimum join DR and
         // newDr must be feasible; there must be at least
         // one channel that supports the new datarate. If not, stay
         // at current datarate (which finalizes things).
-        if (! LMICbandplan_isDataRateFeasible(newDr)) {
+        if (newDr < LMIC.joinDrMin || !LMICbandplan_isDataRateFeasible(newDr)) {
             LMICOS_logEventUint32("LINK_CHECK_DEAD, new DR not feasible", (newDr << 8) | LMIC.datarate);
             newDr = LMIC.datarate;
         }
