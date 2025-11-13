@@ -2383,7 +2383,11 @@ static bit_t processDnData_txcomplete(void) {
         // newDr must be feasible; there must be at least
         // one channel that supports the new datarate. If not, stay
         // at current datarate (which finalizes things).
-        if (newDr < LMIC.joinDrMin || !LMICbandplan_isDataRateFeasible(newDr)) {
+        if (
+#if CFG_LMIC_EU_like
+            newDr < LMIC.joinDrMin || 
+#endif // #if CFG_LMIC_EU_like
+                                      !LMICbandplan_isDataRateFeasible(newDr)) {
             LMICOS_logEventUint32("LINK_CHECK_DEAD, new DR not feasible", (newDr << 8) | LMIC.datarate);
             newDr = LMIC.datarate;
         }
